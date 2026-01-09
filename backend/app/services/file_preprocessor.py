@@ -7,8 +7,6 @@ from pathlib import Path
 from PIL import Image
 from docx import Document
 
-from dotenv import load_dotenv
-
 class FilePreprocessor():
     def __init__(self):
         self.handlers = {
