@@ -1,0 +1,25 @@
+# Wprowadzenie do Sztucznej Inteligencji
+
+Sztuczna inteligencja (AI) to dziedzina informatyki zajmująca się tworzeniem systemów zdolnych do wykonywania zadań, które normalnie wymagają ludzkiej inteligencji. Przykłady zastosowań AI to rozpoznawanie obrazów, przetwarzanie języka naturalnego, gry strategiczne i systemy rekomendacyjne.
+
+# Sieci neuronowe
+
+Sieci neuronowe są podstawowym narzędziem w głębokim uczeniu (deep learning). Składają się z neuronów (węzłów), które są połączone warstwami. Każdy neuron przetwarza informacje, przekazuje je dalej i uczy się poprzez modyfikację wag połączeń.
+
+# Algorytmy uczenia maszynowego
+
+Uczenie maszynowe (ML) dzieli się na:
+1. **Uczenie nadzorowane (supervised learning)** – model uczy się na oznaczonych danych treningowych.
+2. **Uczenie nienadzorowane (unsupervised learning)** – model odkrywa wzorce w danych bez etykiet.
+3. **Uczenie ze wzmocnieniem (reinforcement learning)** – model uczy się poprzez interakcje z otoczeniem i otrzymywanie nagród lub kar.
+
+# Zastosowania AI w codziennym życiu
+
+- Asystenci głosowi (np. Siri, Alexa) pomagają w zarządzaniu zadaniami.
+- Systemy rekomendacji (Netflix, YouTube, Amazon) sugerują produkty lub treści dopasowane do użytkownika.
+- Autonomiczne pojazdy wykorzystują AI do podejmowania decyzji w czasie rzeczywistym.
+- Analiza danych finansowych umożliwia przewidywanie trendów rynkowych.
+
+# Podsumowanie
+
+AI rewolucjonizuje różne dziedziny życia i pracy. Wiedza o podstawowych koncepcjach, takich jak sieci neuronowe i algorytmy uczenia maszynowego, jest kluczowa do tworzenia nowoczesnych aplikacji inteligentnych.
