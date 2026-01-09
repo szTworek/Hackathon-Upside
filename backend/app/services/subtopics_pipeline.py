@@ -1,0 +1,161 @@
+import os
+import json
+from dotenv import load_dotenv
+from openai import OpenAI
+
+load_dotenv()
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+lecture_text = """
+NOTATKI Z WYKŁADU – HISTORIA LUDU MERYNO W CZASACH STAROŻYTNEJ AGARWII
+CZĘŚĆ I: Początki, migracja i formowanie się tożsamości
+Wykład zaczyna się od zastrzeżenia metodologicznego: w przypadku Merynów wczesna historia jest rekonstrukcją opartą na późniejszych przekazach, archeologii rytualnej oraz tradycji ustnej. Nie ma jednego „momentu zerowego”, ale umownie przyjmuje się przejście przez Pustynię Halmar ok. 3120 r. p.n.e. jako punkt wyjścia narracji. W źródłach pojawia się to nie jako wydarzenie stricte geograficzne, lecz raczej jako mit fundacyjny – „przejście” rozumiane także symbolicznie (koniec koczownictwa, początek pamięci zbiorowej).
+Halmar opisywany jest jako przestrzeń graniczna: brak wody, brak cienia, „ziemia bez imion”. W Pieśniach Długiego Zmierzchu pustynia pojawia się jako miejsce, gdzie „głosy przodków milkną”, co sugeruje zerwanie z wcześniejszą tradycją. Dopiero po jej przekroczeniu pojawia się pojęcie rodu w sensie znanym późniejszym Merynom.
+Po drugiej stronie pustyni – dolina późniejszej Agarwii. Trzy rzeki (Ulmar, Seken, Taro) tworzą naturalne osie osadnictwa. W notatkach prof. zaznaczone: Ulmar zawsze wyróżniana, niemal personifikowana. Rzeka nie tylko jako zasób, ale jako byt pamiętający – w późniejszych tekstach „niesie imiona zmarłych”. Już tu widać zalążek sakralizacji krajobrazu.
+Najstarsze ślady osadnictwa – prymitywne konstrukcje z czerwonej gliny. Brak kamienia, brak drewna → glina jako materiał totalny. Domy niskie, bez okien, wejście od wschodu (powiązanie z kultem światła?). Warto zapamiętać: czerwona glina = ziemia + krew, często powtarzany motyw symboliczny.
+Z tego okresu pochodzi to, co archeolodzy nazwali później Kulturą Kamieni Mówiących. Nazwa nowożytna, ale trafna: w pobliżu wczesnych osad znajdowane są pojedyncze głazy, ustawione pionowo, pokryte rytami spiralnymi i nacięciami. Brak pisma → znaki nie są zapisem języka, raczej nośnikiem rytuału. Prof. podkreślał: nie czytać ich jak tekst, tylko jak performans. Kamień „mówi” tylko w trakcie obrzędu.
+Wspólnoty z tego okresu są jeszcze silnie klanowe. Pojęcie „ludu Meryno” pojawia się dopiero retrospektywnie. Wtedy są to trzy główne skupiska rodowe, które dopiero w 2987 r. p.n.e. zawierają Przymierze Trzech Rzek. Data znana z późniejszych kronik, ale stale powtarzana → ważna dla tożsamości. Przymierze nie tworzy państwa, raczej wspólnotę rytualną i obronną. W notatkach zaznaczone: wspólne święta, wspólne pochówki elit.
+Od tego momentu zaczyna się proces różnicowania funkcji społecznych. Pojawia się zalążek starszyzny, ale jeszcze bez formalnej struktury. Najstarsi mężczyźni rodów + osoby uznane za „słyszące kamienie” (proto-kapłani). Ciekawe: brak wyraźnego podziału religia–polityka.
+W okolicach XXVIII–XXVII w. p.n.e. następuje stabilizacja osadnictwa. Pojawiają się większe skupiska, magazyny zbożowe, pierwsze ślady planowania przestrzennego. Tu wykładowca wprowadza pojęcie Domów z Czerwonej Gliny jako nie tylko formy architektonicznej, ale też jednostki społecznej – dom = ród = pamięć. W Pieśniach Długiego Zmierzchu „domy” płaczą, palą się, umierają.
+Kluczowy moment: reformy Starszyzny Naram (ok. 2750 r. p.n.e.). Naram nie jest królem. Raczej figurą symboliczną – „ten, który zebrał słowa”. Reformy polegały na skodyfikowaniu zwyczajów: kto może zawrzeć małżeństwo, jak rozwiązywać spory, kiedy dozwolona jest zemsta. To pierwszy moment, gdy prawo oddziela się od rytuału, choć nadal jest z nim silnie powiązane.
+Starszyzna Naram liczyła siedem rodów (liczba powtarza się obsesyjnie w tradycji meryńskiej). Decyzje podejmowane kolegialnie, brak jednego władcy. Profesor zaznaczał: brak monarchii to cecha konstytutywna wczesnej Agarwii.
+Równolegle rozwija się tradycja ustna. Pieśni Długiego Zmierzchu nie są jednym dziełem, ale zbiorem motywów. Opowiadają o wędrówce, o zdradach między rodami, o bogчны Bogini Selmar (choć jej kult w pełni rozwinie się później). Ważne: pieśni nie mają ustalonego tekstu – każdy wykonawca zmienia szczegóły, ale zachowuje strukturę.
+Około 2612 r. p.n.e. pojawia się pierwszy monumentalny projekt ponadrodowy: Krąg Thes-Kaal. Lokalizacja: na lekkim wzniesieniu między trzema rzekami. Kamienie przywiezione z daleka → ogromny wysiłek logistyczny. Funkcja podwójna: kalendarz (cienie, przesilenia) oraz centrum rytualne. Od tego momentu Thes-Kaal staje się osią symbolicznej geografii Agarwii.
+Ważna uwaga z wykładu: od Thes-Kaal liczy się czas. W późniejszych kronikach wydarzenia są opisywane jako „przed wzniesieniem kręgu” lub „po zamknięciu kręgu”.
+Na tym etapie Merynowie nie są jeszcze imperium ani nawet jednolitym państwem, ale posiadają już:
+– wspólną mitologię
+– wspólne rytuały
+– wspólne miejsca pamięci
+– zalążki prawa
+Profesor podkreślał, że to właśnie ta „miękka spójność” pozwoli im przetrwać późniejsze konflikty.
+Na końcu tej części wykładu pojawia się zapowiedź nadchodzących napięć: wzrost populacji, presja na zasoby, pierwsze kontakty z ludami pustynnymi. Pada termin „czas przed pyłem” – określenie późniejszych kronikarzy na okres względnej harmonii.
+
+CZĘŚĆ II: Wojny Pyłowe, religia i Złoty Wiek Agarwii
+Na początku tej części wykładu profesor wraca do końca „czasu przed pyłem”. Podkreśla, że określenie to pojawia się dopiero w źródłach późniejszych i ma charakter idealizujący. Już w XXV w. p.n.e. widać napięcia: zmniejszające się zasoby wody, nieregularne wylewy rzek, rosnącą liczbę osad na obrzeżach doliny. Kontakty z ludami pustynnymi początkowo handlowe – wymiana soli, suszonego mięsa, obsydianu – stopniowo stają się wrogie.
+W tym kontekście pojawiają się Wojny Pyłowe, datowane umownie na 2450–2410 r. p.n.e.. Profesor zaznaczał, że nie była to jedna wojna, lecz seria krótkich, brutalnych starć, rajdów i oblężeń. Nazwa pochodzi z późniejszych pieśni – „pył” jako symbol pustyni, ale też zatarcia pamięci. Wiele bitew nie ma nazw ani dokładnych lokalizacji.
+Charakterystyczne dla tego okresu jest wykształcenie się nowej warstwy społecznej: wojowników zawodowych. Wcześniej walczył każdy dorosły mężczyzna; teraz pojawia się grupa wyspecjalizowana, utrzymywana przez wspólnotę. Z nią związana jest formacja znana jako Wojownicy z Popiołu. W notatkach prof.: nie zakon, nie kasta, raczej bractwo. Ich pancerze miały być posypywane popiołem z ognisk rytualnych – symbol zerwania z domem, gotowości na śmierć.
+Ciekawe, że Wojownicy z Popiołu są jednocześnie silnie związani z religią. Przed bitwą nocują przy kamieniach rytualnych, składają ofiary bezkrwawe (ziarna, popiół, tkaniny). To sugeruje, że wojna była postrzegana nie tylko jako konflikt materialny, ale jako zaburzenie kosmicznej równowagi.
+Najważniejszym momentem kończącym ten okres jest Pokój nad Wyschniętym Jeziorem (2333 r. p.n.e.). Samo jezioro Kamar było już wtedy suche – co profesor interpretował jako wymowny symbol: traktat zawarty nad miejscem utraty zasobu. Warunki pokoju nie są znane w szczegółach, ale znikają wzmianki o dużych najazdach pustynnych. Część ludów zostaje wchłonięta przez Agarwię jako pół-nomadyczni sojusznicy.
+Po wojnach następuje gwałtowna transformacja kulturowa. Profesor używa tu terminu „rekonsolidacja”. Odbudowa osad, rozbudowa systemów irygacyjnych, centralizacja rytuałów. Właśnie wtedy zaczyna się Złoty Wiek Agarwii (ok. 2300–2100 p.n.e.).
+Ten okres charakteryzuje się rozkwitem niemal wszystkich dziedzin życia. Rolnictwo staje się bardziej wydajne, pojawiają się nadwyżki. Handel wychodzi poza region – ślady meryńskich wyrobów znajdowane są setki kilometrów od doliny. Keth-Arun zaczyna wyrastać na główne centrum wymiany (choć formalnie miastem stanie się później).
+Bardzo ważny moment: rozwój pisma. Pismo Złamanego Ziarna nie powstaje jako narzędzie literackie, lecz administracyjne. Znaki przypominają połamane kłosy, linie podziału pól, znaki miar. Profesor zaznaczał, że pismo jest „ciężkie” – trudne do szybkiego zapisu, co ogranicza liczbę piśmiennych. Pismo = władza.
+Z pisma korzystają głównie kapłani oraz urzędnicy przy świątyniach. Właśnie w tym okresie instytucjonalizuje się religia. Centralną postacią staje się bogini Selmar. Wcześniej pojawiała się w pieśniach jako postać opiekuńcza, teraz otrzymuje świątynie, kapłanów, ustalone święta. Selmar łączona jest z urodzajem, cyklem roku, ale też z losem dzieci – wysoką śmiertelnością niemowląt tłumaczono jej gniewem lub milczeniem.
+Budowane są Świątynie Wiatru – konstrukcje otwarte, z wysokimi kolumnami, bez dachów. Ich funkcja była zarówno rytualna, jak i praktyczna: obserwacja pogody, przewidywanie burz piaskowych. Kapłani Białych Szat, którzy nimi zarządzali, zyskują ogromny autorytet. Białe szaty = czystość, oderwanie od ziemi, przeciwieństwo czerwonej gliny domów.
+W 2198 r. p.n.e. sporządzony zostaje Spis Ludności Klanowej. Profesor mówił o nim długo jako o „momencie, w którym państwo zaczyna liczyć ludzi”. Spis obejmuje nie tylko liczbę osób, ale ich przynależność rodową, zobowiązania wobec świątyń, udział w pracach irygacyjnych. Od tego momentu jednostka istnieje w dokumentach, nie tylko w pamięci wspólnoty.
+Jednocześnie narastają napięcia między kapłanami a świecką starszyzną. Kapłani kontrolują kalendarz, pismo i rytuał, starszyzna – ziemię i wojsko. Ten konflikt narasta powoli i eksploduje dopiero później.
+Profesor podkreślał, że Złoty Wiek nie był okresem idylli, lecz równowagi. System działa, dopóki wszystkie elementy pozostają w napięciu, ale żadna grupa nie dominuje absolutnie.
+Pod koniec Złotego Wieku pojawiają się pierwsze niepokojące znaki: nieregularności w kalendarzu, trudności w interpretacji znaków, relacje o „błędnych wiatrach”. To prowadzi do wydarzenia, które wstrząśnie całym systemem wierzeń.
+
+CZĘŚĆ III: Kryzys religijny, bunt miast i rozpad starego porządku
+Profesor zaczyna tę część od zaznaczenia, że Zaćmienie Trzech Słońc (2055 r. p.n.e.) jest jednym z nielicznych wydarzeń, które pojawiają się we wszystkich znanych tradycjach meryńskich — zarówno w kronikach świątynnych, jak i w pieśniach ludowych. Co istotne: opisy są sprzeczne co do szczegółów, ale zgodne co do emocji. Strach, dezorientacja, poczucie porzucenia.
+Nie wiadomo dokładnie, czym było „Trzy Słońca”. Profesor podkreśla, żeby nie czytać tego dosłownie. Możliwe interpretacje: rzadkie zjawisko astronomiczne (np. załamanie światła, pył w atmosferze), seria zaćmień w krótkim czasie albo po prostu metafora całkowitego zaburzenia porządku kosmicznego. Dla Merynów istotne było nie to, co się wydarzyło, ale że kapłani nie potrafili tego przewidzieć ani wyjaśnić.
+Tu zaczyna się tzw. Czas Ciszy Świątyń. Przez wiele miesięcy (a w niektórych regionach lat) rytuały zostają ograniczone. Kapłani Białych Szat przestają publicznie interpretować znaki wiatru. Nie ogłaszają kalendarza świąt. W notatkach prof.: milczenie jako strategia obronna, która obróciła się przeciw nim.
+W społeczeństwie, które opierało swoją stabilność na rytmie obrzędów, cisza jest katastrofą. Rolnicy nie wiedzą, kiedy siać. Rzemieślnicy nie wiedzą, kiedy wolno im pracować w dniach świętych. Pojawiają się lokalne interpretacje, prywatne rytuały, „fałszywi kapłani”. Jedność religijna zaczyna się kruszyć.
+Jednocześnie miasta — które w Złotym Wieku zyskały na znaczeniu gospodarczym — zaczynają kwestionować sens utrzymywania rozbudowanej hierarchii świątynnej. Właśnie wtedy pojawiają się pierwsze zapisy krytyczne wobec kapłanów, zachowane fragmentarycznie w Piśmie Złamanego Ziarna. Ton tych zapisów jest wyjątkowo świecki: pytania o podatki, o magazyny zbożowe, o odpowiedzialność za błędne prognozy.
+Kulminacją tego procesu jest Powstanie Rzemieślników (ok. 1980 r. p.n.e.). Profesor zaznaczał, że nie była to rewolucja w nowoczesnym sensie, lecz seria strajków, odmów pracy i zamieszek w miastach. Rzemieślnicy kontrolowali produkcję narzędzi, ceramiki, części systemów irygacyjnych — ich protest szybko sparaliżował funkcjonowanie regionu.
+Z tego kryzysu wyłania się nowa forma władzy: Rada Dziewięciu Miast. Nie zastępuje ona ani starszyzny, ani kapłanów, ale staje się trzecią siłą. Każde z dziewięciu największych miast wysyła delegatów (zazwyczaj starszych cechów). Władza rady jest praktyczna: zarządzanie zapasami, handlem, naprawą kanałów. To pierwszy moment w historii Agarwii, gdy kompetencja techniczna staje się źródłem autorytetu.
+Miasta zaczynają się wyraźnie różnicować. Najważniejsze z nich — Keth-Arun — wyrasta na centralny węzeł handlowy. W notatkach: miasto bez świątyni centralnej. To bardzo istotne. Keth-Arun świadomie ogranicza obecność kapłanów, stawiając na targowiska, magazyny, place zgromadzeń. Przestrzeń miejska zmienia się: mniej rytuału, więcej funkcji.
+Religia Selmar nie znika, ale ulega transformacji. Bogini przestaje być jedynym gwarantem porządku. Pojawiają się lokalne interpretacje, nowe przydomki Selmar, a nawet konkurencyjne bóstwa opiekuńcze miast. Kapłani Białych Szat tracą monopol, choć nadal mają wpływy na prowincji.
+Profesor dużo mówił o tym okresie jako o czasie fragmentaryzacji pamięci. Brakuje jednej narracji. Pieśni Długiego Zmierzchu są przepisywane, skracane, lokalnie modyfikowane. Pismo Złamanego Ziarna nadal istnieje, ale używane jest coraz bardziej pragmatycznie — listy długów, kontrakty, spisy magazynowe.
+W tle narasta kolejne zagrożenie: relacje o dziwnych ruchach ludów na zachodzie. Kupcy przynoszą wieści o „ziemiach spowitych mgłą”, o osadach porzuconych bez walki. Profesor zaznacza, że te relacje są początkowo ignorowane — Agarwia jest zajęta własnymi problemami.
+Na końcu tej części wykładu pojawia się ważna teza: to nie najazd z zewnątrz zniszczył Agarwię, lecz wcześniejsza utrata wspólnego języka symbolicznego. Gdy nadchodzi kolejny kryzys, społeczeństwo nie potrafi już reagować jako całość.
+CZĘŚĆ IV: Najazdy, upadek Thes-Kaal i Wielka Susza
+Profesor zaczyna tę część od zdania zapisanego wielkimi literami w notatkach:
+„AGARWIA NIE UPADŁA NAGLE”.
+Podkreśla, że narracja o jednym kataklizmie jest uproszczeniem. To raczej splot kilku procesów, które zbiegły się w czasie.
+Pierwszym z nich jest Najazd Ludów Mgły (ok. 1872 r. p.n.e.). Same Ludy Mgły pozostają jedną z najbardziej niejasnych grup w całej historii regionu. Źródła nie są zgodne co do ich pochodzenia. Jedni kronikarze piszą o zachodzie, inni o północnych wyżynach, jeszcze inni sugerują, że „mgła” to metafora — sposób walki, a nie nazwa etniczna.
+Opisy są jednak zaskakująco spójne, jeśli chodzi o taktykę: ataki nocne, szybkie uderzenia, brak prób długotrwałego oblężenia. Miasta nie są zdobywane frontalnie, raczej izolowane, odcinane od szlaków handlowych. W notatkach: wojna psychologiczna. Mgła jako strach, dezorientacja, brak informacji.
+Co istotne, Ludy Mgły nie niszczą świątyń w pierwszej kolejności. To podważa tezę o konflikcie religijnym. Atakują magazyny, kanały, punkty wymiany. Uderzają w tkankę gospodarczą, nie symboliczną. To przyspiesza proces, który już trwał: osłabienie centrów miejskich.
+W tym czasie Thes-Kaal nadal funkcjonuje, ale jego rola jest coraz bardziej ceremonialna. Profesor zwraca uwagę, że krąg kamienny przestaje być miejscem realnych decyzji. Odbywają się tam rytuały „ku pamięci”, a nie „ku przyszłości”. To bardzo charakterystyczne sformułowanie.
+Kulminacją kryzysu symbolicznego jest Upadek Thes-Kaal w 1859 r. p.n.e. Źródła są niejednoznaczne: jedne mówią o zniszczeniu przez najeźdźców, inne o zawaleniu się części konstrukcji w wyniku trzęsienia ziemi, jeszcze inne sugerują akt celowy — rozbiórkę kamieni przez samych Merynów. Profesor podkreślał, że znaczenie upadku jest ważniejsze niż jego mechanika.
+Po Thes-Kaal nic już nie pełni funkcji wspólnego centrum. Rytuały stają się lokalne, fragmentaryczne. Pieśni Długiego Zmierzchu w tym okresie zmieniają ton — pojawia się motyw „ostatniego kamienia”, który „pamięta imiona, gdy ludzie już zapomnieli”. Z tego pochodzi późniejsza Pieśń Ostatniego Kamienia, znana w wielu wariantach.
+Niemal równolegle zaczyna się Wielka Susza Agarwii (ok. 1800 r. p.n.e.). Dane archeologiczne wskazują na wyraźne zmniejszenie się przepływu rzek, zasolenie gleby, porzucanie pól. Profesor zaznaczał, że susza sama w sobie nie musiałaby oznaczać końca cywilizacji — wcześniejsze pokolenia radziły sobie z kryzysami klimatycznymi. Problemem był brak instytucji zdolnych do skoordynowanej reakcji.
+Rada Dziewięciu Miast istnieje, ale jej autorytet jest ograniczony do obszarów miejskich. Starszyzna rodowa traci wpływy, kapłani — wiarygodność. Nikt nie ma narzędzi, by narzucić wspólną strategię. Każda osada zaczyna działać na własną rękę.
+W notatkach pojawia się termin „rozpad poziomy” — społeczeństwo nie rozpada się przez bunt czy wojnę domową, lecz przez stopniowe wycofywanie się jednostek i rodów z większych struktur. Ludzie przestają myśleć w kategoriach Agarwii, zaczynają myśleć w kategoriach przetrwania.
+To prowadzi do Rozproszenia Merynów. Migracje nie są jednorazowe. Najpierw wyjeżdżają rzemieślnicy i kupcy, potem całe rody. Część podąża wzdłuż dawnych szlaków handlowych, inni wracają na obrzeża pustyni, jeszcze inni osiedlają się w górach. Nie ma jednego kierunku.
+Z tym okresem związana jest Tradycja Wędrującego Ognia. Źródła opisują zwyczaj zabierania żaru z ogniska domowego i przenoszenia go w glinianym naczyniu do nowego miejsca. Ogień symbolizuje ciągłość rodu, nawet jeśli ziemia i dom zostają porzucone. Profesor podkreślał, że to jeden z nielicznych elementów kultury, który przetrwał rozpad struktur politycznych.
+W 1720 r. p.n.e. powstaje to, co później nazwano Ostatnią Kroniką Agarwii. Spisana fragmentarycznie, chaotycznie, prawdopodobnie przez jedną osobę — Hamar-Sela. Styl kroniki jest emocjonalny, momentami desperacki. Zapiski nie mają już charakteru administracyjnego, raczej egzystencjalny: „ile nas zostało”, „kto odszedł”, „które miasto milczy”.
+To ostatni znany tekst zapisany w Piśmie Złamanego Ziarna. Po nim pismo zanika. Profesor zaznaczał, że zanik pisma jest jednym z najbardziej jednoznacznych wskaźników końca epoki. Bez pisma nie ma administracji, nie ma pamięci instytucjonalnej, nie ma państwa.
+CZĘŚĆ V: Zanik języka, koniec epoki i dziedzictwo Agarwii
+Profesor zaczyna ostatnią część od uwagi, że koniec starożytnej Agarwii (ok. 1600 r. p.n.e.) jest datą czysto umowną. Nie ma wydarzenia, które można by jednoznacznie wskazać jako „upadek”. Raczej moment, w którym przestają istnieć jakiekolwiek źródła wytworzone przez samych Merynów, a późniejsze wzmianki pochodzą już wyłącznie od ludów sąsiednich.
+Jednym z kluczowych procesów schyłkowych jest zanik Języka Wysokiego Merynu. Był to język elit — kapłanów, kronikarzy, administracji. W miarę rozpadu struktur państwowych przestaje być potrzebny. W codziennym życiu dominują dialekty lokalne, uproszczone, bardziej funkcjonalne. Profesor zaznaczał, że język umiera nie dlatego, że nikt nim nie mówi, ale dlatego, że nikt nie musi nim mówić.
+Ciekawa obserwacja: w późniejszych przekazach Wysoki Meryn pojawia się jako język magiczny, niezrozumiały, używany w zaklęciach lub przysięgach. To klasyczny proces sakralizacji martwego języka. Fragmenty Pieśni Długiego Zmierzchu są cytowane fonetycznie, bez rozumienia sensu.
+Około 1600 r. p.n.e. znika też sama nazwa „Agarwia” jako określenie polityczne. W źródłach zewnętrznych pojawiają się raczej opisy „ziem dawnych miast”, „krainy trzech rzek” albo „miejsca starych kamieni”. To bardzo ważne: utrata nazwy = utrata tożsamości zbiorowej.
+Profesor dużo czasu poświęca tzw. Mitom Powrotu. Są to opowieści przekazywane przez potomków Merynów w różnych regionach. Motyw powtarzający się niemal wszędzie: Agarwia nie została zniszczona, tylko „zapadła się w czas”. Ma powrócić, gdy lud znów będzie gotów żyć wspólnie. W niektórych wersjach pojawia się wizja ponownego wzniesienia Thes-Kaal, w innych — powrotu Selmar w nowej postaci.
+Interesujące jest to, że mity te nie wzywają do realnego powrotu geograficznego. Agarwia staje się kategorią moralną, nie miejscem na mapie. Profesor określa to jako „utopizację przeszłości”.
+Archeologicznie z tego okresu pochodzą tzw. Kamienie Bez Imion — pozostałości osad, w których brak inskrypcji, znaków rodowych, jakiejkolwiek symboliki. Są to miejsca krótkotrwałe, prowizoryczne. Profesor sugeruje, że ich anonimowość jest świadoma: po doświadczeniu upadku wielkich struktur ludzie nie chcą już pozostawiać trwałych śladów.
+Mimo rozpadu, dziedzictwo Merynów jest wyraźne. Późniejsze kultury regionu przejmują rozwiązania irygacyjne, elementy prawa zwyczajowego (zwłaszcza kolegialność decyzji), a nawet fragmenty kalendarza. Co ciekawe, kult Selmar przetrwał w formie lokalnych bóstw żeńskich, często już bez związku z oryginalną mitologią.
+Szczególną rolę odgrywa pojęcie Agarwii Utraconej. Termin ten nie pochodzi od samych Merynów, lecz od późniejszych historyków i poetów. Agarwia staje się symbolem cywilizacji, która rozpadła się nie przez pychę czy dekadencję, ale przez utracenie zdolności wspólnego znaczenia. Profesor podkreśla, że to właśnie dlatego Agarwia tak często pojawia się w późniejszej literaturze moralizującej.
+Na sam koniec wykładu pojawia się podsumowanie, zapisane w notatkach niemal dosłownie:
+„Historia Merynów nie uczy nas, jak budować imperia. Uczy nas, jak kruche są więzi, które wydają się oczywiste, dopóki nie przestają działać.”
+Profesor zaznacza, że Agarwia jest idealnym przykładem cywilizacji bez bohatera-założyciela i bez spektakularnego końca, co czyni ją trudną, ale niezwykle pouczającą dla historyka.
+Wykład kończy się ciszą — brak pytań, tylko zapowiedź kolokwium i sugestia, by „czytać źródła jak ludzi, nie jak dokumenty”.
+
+"""
+
+prompt = f"""
+Podziel poniższy tekst na logiczne PODTEMATY, a następnie pogrupuj je w nadrzędne GRUPY TEMATYCZNE.
+
+ZASADY (OBOWIĄZKOWE):
+- ABSOLUTNIE NIE ZMIENIAJ TEKSTU
+- NIE PARAFRAZUJ
+- NIE STRESZCZAJ
+- NIE DODAWAJ ANI NIE USUWAJ SŁÓW
+- Wszystkie opisy MUSZĄ być dosłownymi fragmentami tekstu źródłowego (copy-paste)
+- Nie bazuj wyłącznie na akapitach ani znakach nowej linii
+- Twórz nowy PODTEMAT zawsze, gdy w tekście zmienia się temat lub wprowadzany jest nowy punkt,
+  nawet jeśli nie ma wyraźnego podziału na akapity
+- Następnie grupuj powstałe PODTEMATY w logiczne GRUPY TEMATYCZNE wyższego poziomu
+- GRUPA TEMATYCZNA obejmuje kilka powiązanych znaczeniowo podtematów
+- Grupuj fragmenty kontekstowo, a nie tylko formatowo
+- Każda GRUPA TEMATYCZNA ma unikalny tytuł
+
+ZWRÓĆ WYŁĄCZNIE POPRAWNY JSON:
+
+[
+  {{
+    "group_title": "nazwa grupy tematycznej",
+    "subtopics": [
+      {{
+        "text": "DOKŁADNY FRAGMENT TEKSTU – BEZ JAKICHKOLWIEK ZMIAN"
+      }}
+    ]
+  }}
+]
+
+
+TEKST:
+{lecture_text}
+"""
+
+response = client.chat.completions.create(
+    model="gpt-4.1",
+    messages=[
+        {"role": "system", "content": """Jesteś narzędziem do strukturyzowania tekstu. NIE WOLNO CI:
+        - zmieniać treści tekstu
+        - parafrazować
+        - streszczać
+        - dodawać informacji
+        - usuwać informacji
+
+        WOLNO CI TYLKO:
+        - wskazać granice podtematów
+        - nadać im tytuły
+
+        Tekst źródłowy MUSI pozostać w 100% niezmieniony.
+        """},
+        {"role": "user", "content": prompt}
+    ],
+    temperature=0.2
+)
+
+result_text = response.choices[0].message.content
+
+podtematy = json.loads(result_text)
+
+output_dir = os.path.join(os.path.dirname(__file__), "..", "output")
+os.makedirs(output_dir, exist_ok=True)
+output_file = os.path.join(output_dir, "subtopics.json")
+with open(output_file, "w", encoding="utf-8") as f:
+    json.dump(podtematy, f, ensure_ascii=False, indent=2)
