@@ -3,20 +3,54 @@ import json
 from dotenv import load_dotenv
 from openai import OpenAI
 
-def generate_flashcards():
+def generate_flashcards_pipeline(lecture_text):
     load_dotenv()
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    
+    # --- KROK 1: Strukturyzacja tekstu (z subtopics_pipeline.py) ---
+    
+    structuring_prompt = f"""
+    Podziel poniższy tekst na logiczne PODTEMATY, a następnie pogrupuj je w nadrzędne GRUPY TEMATYCZNE.
 
-    input_file = os.path.join(os.path.dirname(__file__), "..", "output", "subtopics.json")
+    ZASADY (OBOWIĄZKOWE):
+    - ABSOLUTNIE NIE ZMIENIAJ TEKSTU
+    - NIE PARAFRAZUJ
+    - NIE STRESZCZAJ
+    - NIE DODAWAJ ANI NIE USUWAJ SŁÓW
+    - Wszystkie opisy MUSZĄ być dosłownymi fragmentami tekstu źródłowego (copy-paste)
+    - Twórz nowy PODTEMAT zawsze, gdy w tekście zmienia się temat
+    - Następnie grupuj powstałe PODTEMATY w logiczne GRUPY TEMATYCZNE wyższego poziomu
+    - Każda GRUPA TEMATYCZNA ma unikalny tytuł
 
-    if not os.path.exists(input_file):
-        print(f"Błąd: Nie znaleziono pliku {input_file}")
-        exit()
+    ZWRÓĆ WYŁĄCZNIE POPRAWNY JSON:
+    [
+      {{
+        "group_title": "nazwa grupy tematycznej",
+        "subtopics": [
+          {{ "text": "DOKŁADNY FRAGMENT TEKSTU" }}
+        ]
+      }}
+    ]
 
-    with open(input_file, "r", encoding="utf-8") as f:
-        groups = json.load(f)
+    TEKST:
+    {lecture_text}
+    """
 
-    flashcards = []
+    struct_response = client.chat.completions.create(
+        model="gpt-4.1", # Pozostawiono zgodnie z oryginałem użytkownika
+        messages=[
+            {"role": "system", "content": "Jesteś narzędziem do strukturyzowania tekstu. Nie zmieniaj treści, tylko wskazuj granice podtematów."},
+            {"role": "user", "content": structuring_prompt}
+        ],
+        temperature=0.2
+    )
+
+    # Parsowanie wyniku do listy obiektów Python
+    groups = json.loads(struct_response.choices[0].message.content)
+
+    # --- KROK 2: Generowanie fiszek (z flashcards.py) ---
+
+    all_flashcards = []
 
     for group in groups:
         group_title = group.get("group_title", "Bez tytułu")
@@ -27,7 +61,7 @@ def generate_flashcards():
         for subtopic in group.get("subtopics", []):
             content = subtopic.get("text", "")
             
-            prompt = f"""
+            flashcard_prompt = f"""
             Na podstawie poniższego fragmentu tekstu stwórz jedną fiszkę do nauki.
             Fiszka musi składać się z pytania i odpowiedzi.
 
@@ -39,16 +73,16 @@ def generate_flashcards():
             {content}
             """
 
-            response = client.chat.completions.create(
+            card_response = client.chat.completions.create(
                 model="gpt-4.1",
                 messages=[
                     {"role": "system", "content": "Jesteś asystentem tworzącym pomocne fiszki edukacyjne. Zwracasz dane tylko w formacie: Pytanie | Odpowiedź."},
-                    {"role": "user", "content": prompt}
+                    {"role": "user", "content": flashcard_prompt}
                 ],
-                temperature=0.5
+                temperature=0.7
             )
 
-            result = response.choices[0].message.content.strip()
+            result = card_response.choices[0].message.content.strip()
             
             if "|" in result:
                 q, a = result.split("|", 1)
@@ -56,6 +90,6 @@ def generate_flashcards():
             else:
                 current_group_list.append((result, "Brak odpowiedzi"))
 
-            flashcards.append(current_group_list)
+        all_flashcards.append(current_group_list)
 
-    return flashcards
+    return all_flashcards
